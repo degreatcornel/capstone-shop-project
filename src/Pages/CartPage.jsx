@@ -19,11 +19,14 @@ export default function CartPage() {
       {items.map((item) => (
         <div
           key={item.id}
-          style={{
-            border: '1px solid #ccc',
-            marginBottom: '10px',
-            padding: '10px',
-          }}
+           style={{
+           display: 'flex',
+           gap: '15px',
+           border: '1px solid #eee',
+           borderRadius: '10px',
+          padding: '10px',
+           alignItems: 'center',
+  }}
         >
           <img
             src={item.thumbnail}

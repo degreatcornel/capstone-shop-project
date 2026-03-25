@@ -2,6 +2,7 @@ import useFetch from '../hooks/useFetch'
 import ProductCard from '../components/ProductCard'
 import { useSearchParams } from 'react-router-dom'
 import { useMemo } from 'react'
+import SkeletonCard from '../components/SkeletonCard'
 
 export default function ShopPage() {
   // ✅ Using DummyJSON API
@@ -37,7 +38,21 @@ export default function ShopPage() {
   }, [products, searchQuery, category])
 
   // ✅ Loading & Error states
-  if (loading) return <p>Loading products...</p>
+  if (loading) {
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+        gap: '20px',
+      }}
+    >
+      {Array.from({ length: 8 }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+  )
+}
   if (error) return <p>Error: {error}</p>
 
   return (
@@ -79,11 +94,11 @@ export default function ShopPage() {
         <p>No products found</p>
       ) : (
         <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '10px',
-          }}
+           style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '20px',
+  }}
         >
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />

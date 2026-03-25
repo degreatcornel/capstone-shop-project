@@ -1,0 +1,10 @@
+[
+  { "id": 1, "name": "Blue T-Shirt", "price": 19.99, "category": "Apparel", "image": "/images/blue-tshirt.jpg" },
+  { "id": 2, "name": "Red Hoodie", "price": 39.99, "category": "Apparel", "image": "/images/red-hoodie.jpg" },
+  { "id": 3, "name": "Sneakers", "price": 59.99, "category": "Footwear", "image": "/images/sneakers.jpg" },
+  { "id": 4, "name": "phone", "price": 1000.00, "category": "Electronics", "image": "https://via.placeholder.com/200" },
+  { "id": 6, "name": "leather bag", "price": 1500.00, "category": "Fashion", "image": "https://via.placeholder.com/200"}
+]
+
+
+

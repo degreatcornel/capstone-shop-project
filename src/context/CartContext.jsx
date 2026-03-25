@@ -29,25 +29,30 @@ export function CartProvider({ children }) {
   }
 
   // ✅ Remove item
-  const removeFromCart = (id) => {
+  const removeItem = (id) => {
     setCartItems((prev) => prev.filter((item) => item.id !== id))
   }
 
   // ✅ Update quantity
   const updateQuantity = (id, quantity) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity } : item
+    if (quantity <= 0) {
+      removeItem(id)
+    } else {
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, quantity } : item
+        )
       )
-    )
+    }
   }
 
   return (
     <CartContext.Provider
       value={{
+        items: cartItems,
         cartItems,
         addToCart,
-        removeFromCart,
+        removeItem,
         updateQuantity,
       }}
     >
@@ -57,6 +62,7 @@ export function CartProvider({ children }) {
 }
 
 // 3. Custom Hook
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCart() {
   return useContext(CartContext)
 }

@@ -1,50 +1,73 @@
 import { useCart } from '../context/CartContext'
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, updateQuantity } = useCart()
+  const { items, removeItem, updateQuantity } = useCart()
 
-  // ✅ Calculate total
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  )
+  // Calculate total price (derived state)
+  const total = items.reduce((sum, item) => {
+    return sum + item.price * item.quantity
+  }, 0)
 
-  if (cartItems.length === 0) {
-    return <p>Your cart is empty 🛒</p>
+  if (items.length === 0) {
+    return <h2>Your cart is empty 🛒</h2>
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <h1>Your Cart</h1>
 
-      {cartItems.map((item) => (
+      {items.map((item) => (
         <div
           key={item.id}
           style={{
-            borderBottom: '1px solid #ccc',
+            border: '1px solid #ccc',
             marginBottom: '10px',
-            paddingBottom: '10px',
+            padding: '10px',
           }}
         >
-          <h3>{item.title}</h3>
-          <p>${item.price}</p>
-
-          <input
-            type="number"
-            value={item.quantity}
-            min="1"
-            onChange={(e) =>
-              updateQuantity(item.id, Number(e.target.value))
-            }
+          <img
+            src={item.thumbnail}
+            alt={item.title}
+            style={{ width: '100px' }}
           />
 
-          <button onClick={() => removeFromCart(item.id)}>
+          <h3>{item.title}</h3>
+          <p>₦{item.price}</p>
+
+          {/* Quantity control */}
+          <div>
+            <button
+              onClick={() =>
+                updateQuantity(item.id, item.quantity - 1)
+              }
+            >
+              -
+            </button>
+
+            <span style={{ margin: '0 10px' }}>
+              {item.quantity}
+            </span>
+
+            <button
+              onClick={() =>
+                updateQuantity(item.id, item.quantity + 1)
+              }
+            >
+              +
+            </button>
+          </div>
+
+          {/* Remove button */}
+          <button
+            onClick={() => removeItem(item.id)}
+            style={{ marginTop: '5px' }}
+          >
             Remove
           </button>
         </div>
       ))}
 
-      <h2>Total: ${total.toFixed(2)}</h2>
+      <h2>Total: ₦{total.toFixed(2)}</h2>
     </div>
   )
 }

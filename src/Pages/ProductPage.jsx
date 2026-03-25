@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import { useState } from 'react'
+import { useCart } from '../context/CartContext'
 
 export default function ProductPage() {
   const { id } = useParams()
+  const { addToCart } = useCart()
 
   // ✅ Fetch single product
   const endpoint = `https://dummyjson.com/products/${id}`
@@ -47,9 +49,12 @@ export default function ProductPage() {
       </div>
 
       {/* ADD TO CART BUTTON */}
-      <button style={{ marginTop: '10px', padding: '10px' }}>
+      <button
+  style={{ marginTop: '10px', padding: '10px' }}
+  onClick={() => addToCart(product, quantity)}>
         Add to Cart
       </button>
     </div>
   )
 }
+

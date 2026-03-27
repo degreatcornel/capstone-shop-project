@@ -1,24 +1,24 @@
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 
 export default function Layout() {
   const { cartItems } = useCart()
 
-  const totalItems = cartItems.reduce(
-  (sum, item) => sum + item.quantity,
-  0
-)
+  const totalItems = cartItems?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+
+  const linkStyle = ({ isActive }) => ({
+    marginRight: '10px',
+    color: isActive ? '#61dafb' : 'white',
+  })
 
   return (
     <div style={{ background: '#222', color: 'white', minHeight: '100vh' }}>
       {/* Navigation */}
       <nav style={{ padding: '10px', background: '#333', color: 'white' }}>
-        <Link to="/" style={{ marginRight: '10px', color: 'white' }}>Home</Link>
-        <Link to="/shop" style={{ marginRight: '10px', color: 'white' }}>Shop</Link>
-        <Link to="/cart" style={{ marginRight: '10px', color: 'white' }}>
-          Cart ({totalItems})
-        </Link>
-        <Link to="/blog" style={{ color: 'white' }}>Blog</Link>
+        <NavLink to="/" style={linkStyle}>Home</NavLink>
+        <NavLink to="/shop" style={linkStyle}>Shop</NavLink>
+        <NavLink to="/cart" style={linkStyle}>Cart ({totalItems})</NavLink>
+        <NavLink to="/blog" style={linkStyle}>Blog</NavLink>
       </nav>
 
       {/* Page Content */}

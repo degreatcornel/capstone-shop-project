@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 
 import Layout from './components/Layout'
+import ErrorBoundary from './components/ErrorBoundary'
 
 // Pages
 import HomePage from './Pages/HomePage'
@@ -14,7 +15,14 @@ import NotFoundPage from './Pages/NotFoundPage'
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={
+          <ErrorBoundary>
+            <Layout />
+          </ErrorBoundary>
+        }
+      >
         
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />

@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react'
 
 // 1. Create Context
 const CartContext = createContext()
+const clearCart = () => setItems([])
 
 // 2. Provider
 export function CartProvider({ children }) {

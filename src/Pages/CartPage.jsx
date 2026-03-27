@@ -2,15 +2,22 @@ import { useCart } from '../context/CartContext'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity } = useCart()
+  const subtotal = items.reduce(
+  (sum, item) => sum + item.price * item.quantity,
+  0
+)
+
+const shipping = subtotal > 50000 ? 0 : 5000
+const tax = subtotal * 0.075
+const total = subtotal + shipping + tax
 
   // Calculate total price (derived state)
-  const total = items.reduce((sum, item) => {
-    return sum + item.price * item.quantity
-  }, 0)
 
   if (items.length === 0) {
     return <h2>Your cart is empty 🛒</h2>
   }
+
+  
 
   return (
     <div>
@@ -36,6 +43,17 @@ export default function CartPage() {
 
           <h3>{item.title}</h3>
           <p>₦{item.price}</p>
+
+          <h3>Subtotal: ₦{subtotal.toFixed(2)}</h3>
+          <p>Shipping: ₦{shipping}</p>
+          <p>Tax: ₦{tax.toFixed(2)}</p>
+          <h2>Total: ₦{total.toFixed(2)}</h2>
+
+          {shipping > 0 && (
+  <p>
+    Spend ₦{(50000 - subtotal).toFixed(2)} more to get FREE shipping 🚚
+  </p>
+          )}
 
           {/* Quantity control */}
           <div>

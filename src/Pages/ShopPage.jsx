@@ -16,6 +16,7 @@ export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const searchQuery = searchParams.get('q') || ''
   const category = searchParams.get('cat') || ''
+  const sort = searchParams.get('sort') || ''
 
   // ✅ Generate categories dynamically
   const categories = useMemo(() => {
@@ -62,22 +63,20 @@ export default function ShopPage() {
       {/* FILTER + SEARCH */}
       <div style={{ marginBottom: '10px' }}>
         <select
-          value={category}
-          onChange={(e) =>
-            setSearchParams({ q: searchQuery, cat: e.target.value })
-          }
-          style={{ marginRight: '10px', padding: '5px' }}
-        >
-          <option value="">All Categories</option>
-
-          {/* ✅ Categories now come from API */}
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
-
+  value={sort}
+  onChange={(e) =>
+    setSearchParams({
+      q: searchQuery,
+      cat: category,
+      sort: e.target.value,
+    })
+  }
+>
+  <option value="">Sort</option>
+  <option value="price-asc">Price: Low to High</option>
+  <option value="price-desc">Price: High to Low</option>
+  <option value="rating">Rating</option>
+</select>
         <input
           type="text"
           placeholder="Search products..."

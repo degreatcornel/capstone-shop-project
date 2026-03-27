@@ -5,6 +5,8 @@ function ProductCard({ product }) {
     <Link
       to={`/shop/${product.id}`}
       style={{ textDecoration: 'none', color: 'inherit' }}
+
+      
     >
       <div
         style={{
@@ -42,6 +44,10 @@ function ProductCard({ product }) {
 
         <p style={{ fontWeight: 'bold' }}>
           ₦{product.price}
+        </p>
+
+        <p>
+       ⭐ {product.rating}
         </p>
 
         <p style={{ color: '#666' }}>

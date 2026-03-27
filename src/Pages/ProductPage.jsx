@@ -1,21 +1,36 @@
 import { useParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
-import { useState } from 'react'
 import { useCart } from '../context/CartContext'
+import { useState } from 'react'
+import ProductCard from '../components/ProductCard'
 
 export default function ProductPage() {
   const { id } = useParams()
+
+  const { data, loading, error } = useFetch(
+    `https://dummyjson.com/products/${id}`
+  )
+
+  const { data: allProducts } = useFetch(
+    'https://dummyjson.com/products?limit=100'
+  )
+
   const { addToCart } = useCart()
 
-  // ✅ Fetch single product
-  const endpoint = `https://dummyjson.com/products/${id}`
-  const { data: product, loading, error } = useFetch(endpoint)
-
-  // ✅ Quantity state
   const [quantity, setQuantity] = useState(1)
 
   if (loading) return <p>Loading product...</p>
-  if (error) return <p>Error: {error}</p>
+  if (error) return <p>Error loading product</p>
+
+  const product = data
+
+  // Related products (same category)
+  const related =
+    allProducts?.products?.filter(
+      (p) =>
+        p.category === product.category &&
+        p.id !== product.id
+    ) || []
 
   return (
     <div style={{ padding: '20px' }}>
@@ -27,34 +42,37 @@ export default function ProductPage() {
         style={{ width: '300px' }}
       />
 
-      <p><strong>Price:</strong> ${product.price}</p>
-      <p><strong>Rating:</strong> ⭐ {product.rating}</p>
-      <p><strong>Stock:</strong> {product.stock}</p>
-      <p><strong>Brand:</strong> {product?.brand || 'N/A'}</p>
+      <p>{product.description}</p>
+      <p>Price: ₦{product.price}</p>
+      <p>Rating: ⭐ {product.rating}</p>
+      <p>Brand: {product?.brand || 'N/A'}</p>
+      <p>Stock: {product.stock}</p>
 
-      <p style={{ marginTop: '10px' }}>
-        {product.description}
-      </p>
-
-      {/* QUANTITY SELECTOR */}
-      <div style={{ marginTop: '20px' }}>
-        <label>Quantity: </label>
-        <input
-          type="number"
-          min="1"
-          max={product.stock}
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-        />
+      {/* Quantity */}
+      <div>
+        <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>-</button>
+        <span style={{ margin: '0 10px' }}>{quantity}</span>
+        <button onClick={() => setQuantity((q) => q + 1)}>+</button>
       </div>
 
-      {/* ADD TO CART BUTTON */}
+      {/* Add to cart */}
       <button
-  style={{ marginTop: '10px', padding: '10px' }}
-  onClick={() => addToCart(product, quantity)}>
+        onClick={() => addToCart(product, quantity)}
+        style={{ marginTop: '10px' }}
+      >
         Add to Cart
+
+    
       </button>
+
+      {/* Related */}
+      <h2>Related Products</h2>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+        {related.slice(0, 3).map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
     </div>
   )
 }
-

@@ -14,8 +14,13 @@ const total = subtotal + shipping + tax
   // Calculate total price (derived state)
 
   if (items.length === 0) {
-    return <h2>Your cart is empty 🛒</h2>
-  }
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h2>Your cart is empty 🛒</h2>
+      <p>Start shopping to add items</p>
+    </div>
+  )
+}
 
   
 
@@ -61,7 +66,12 @@ const total = subtotal + shipping + tax
               onClick={() =>
                 updateQuantity(item.id, item.quantity - 1)
               }
+
+              
             >
+              <button onClick={() => confirm('Clear cart?') && clearCart()}>
+               Clear Cart
+            </button>
               -
             </button>
 

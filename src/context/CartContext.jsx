@@ -53,6 +53,7 @@ export function CartProvider({ children }) {
         items: cartItems,
         cartItems,
         addToCart,
+        addItem: addToCart,
         removeItem,
         updateQuantity,
       }}

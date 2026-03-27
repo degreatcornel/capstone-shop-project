@@ -1,3 +1,6 @@
+An outstanding e-commerce shop built for Tecvinson Academy by Nnaji Cornelius. A project for the 2025/2026 front end training cohort.
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
